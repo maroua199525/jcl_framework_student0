@@ -1,0 +1,8 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. HELLO-COBOL.
+       AUTHOR. STUDENT.
+       
+       PROCEDURE DIVISION.
+       MAIN-PROCEDURE.
+           DISPLAY "Hello from COBOL!"
+           STOP RUN.

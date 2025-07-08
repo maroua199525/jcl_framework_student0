@@ -1,0 +1,16 @@
+# Master Catalog - Dataset Registry
+# Format: DSN|TYPE|LOCATION|STATUS|CREATED|SIZE|RECORDS
+# 
+# This file will be populated when you allocate datasets using:
+# ./dataset_manager.sh allocate <dataset_name> <type> <size> <records>
+#
+# Example entries will appear like:
+# MY.TEST.DATA|PS|my_test_data.dat|ACTIVE|2025-01-01|1024|100
+# STUDENT.INPUT.DATA|PS|student_input_data.dat|ACTIVE|2025-01-01|2048|50
+MY.NEW.DATASET|PS|/home/marouaa/jcl_framework_student/datasets/my_new_dataset.dat|ACTIVE|2025-07-02|2048|100
+STUDENT.TEST.DATA|PS|/home/marouaa/jcl_framework_student/datasets/student_test_data.dat|ACTIVE|2025-07-02|1024|50
+STUDENT.INPUT.DATA|PS|/home/marouaa/jcl_framework_student/datasets/student_input_data.dat|ACTIVE|2025-07-03|1024|10
+STUDENT.OUTPUT.DATA|PS|/home/marouaa/jcl_framework_student/datasets/student_output_data.dat|ACTIVE|2025-07-03|1024|10
+STUDENT.INPUT.DATA|PS|/home/marouaa/jcl_framework_student/datasets/student_input_data.dat|ACTIVE|2025-07-03|1024|10
+STUDENT.OUTPUT.DATA|PS|/home/marouaa/jcl_framework_student/datasets/student_output_data.dat|ACTIVE|2025-07-03|1024|10
+TEST.STUDENT.DATA|PS|/home/marouaa/jcl_framework_student/datasets/test_student_data.dat|ACTIVE|2025-07-03|1024|10

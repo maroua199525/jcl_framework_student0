@@ -232,6 +232,10 @@ execute_step() {
             execute_cobol_program "hello_world.cbl" "$step_log"
             return_code=$?
             ;;
+        "FILE-COPY")
+            execute_cobol_program "file_copy.cbl" "$step_log"
+            return_code=$?
+            ;;
         *)
             echo "Unknown program: $EXEC_PROGRAM" | tee "$step_log"
             return_code=8
@@ -503,6 +507,24 @@ simulate_cobol_execution() {
             echo "Hello from COBOL!" | tee -a "$log_file"
             echo "HELLO-COBOL: Program executed successfully" | tee -a "$log_file"
             return 0
+            ;;
+        "file_copy")
+            echo "FILE-COPY: Starting file processing..." | tee -a "$log_file"
+            if [[ -n "$INFILE" && -n "$OUTFILE" ]]; then
+                if [[ -f "$INFILE" ]]; then
+                    cp "$INFILE" "$OUTFILE"
+                    local line_count=$(wc -l < "$INFILE" 2>/dev/null || echo "0")
+                    echo "FILE-COPY: Processing completed" | tee -a "$log_file"
+                    echo "FILE-COPY: Records processed: $line_count" | tee -a "$log_file"
+                    return 0
+                else
+                    echo "FILE-COPY: ERROR - Input file not found: $INFILE" | tee -a "$log_file"
+                    return 8
+                fi
+            else
+                echo "FILE-COPY: ERROR - INFILE or OUTFILE not defined" | tee -a "$log_file"
+                return 8
+            fi
             ;;
         *)
             echo "Program $program_name executed successfully" | tee -a "$log_file"

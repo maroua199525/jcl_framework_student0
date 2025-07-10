@@ -1,0 +1,5 @@
+Hello World Sample Data
+Line 1: Welcome to JCL Framework
+Line 2: This is sample input data
+Line 3: For basic file processing
+Line 4: End of sample data

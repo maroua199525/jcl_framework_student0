@@ -1,0 +1,4 @@
+Record 1: Customer Data
+Record 2: Transaction Info
+Record 3: Account Balance
+Record 4: Payment Details

@@ -200,40 +200,28 @@ execute_step() {
     
     # Execute based on program type
     case "$EXEC_PROGRAM" in
-        "BATCH-VALIDATOR")
-            execute_cobol_program "simple_validator.cbl" "$step_log"
-            return_code=$?
-            ;;
-        "ACCOUNT-UPDATE")
-            execute_cobol_program "data_processor.cbl" "$step_log"
-            return_code=$?
-            ;;
-        "TRANSACTION-SECURITY")
-            execute_cobol_program "simple_validator.cbl" "$step_log"
-            return_code=$?
-            ;;
-        "CUSTOMER-SEARCH")
-            execute_cobol_program "report_generator.cbl" "$step_log"
-            return_code=$?
-            ;;
-        "FILE-PROCESSOR")
-            execute_cobol_program "file_processor.cbl" "$step_log"
-            return_code=$?
-            ;;
-        "DISPLAY-OUTPUT")
-            execute_cobol_program "display_output.cbl" "$step_log"
-            return_code=$?
-            ;;
-        "COPY-LINES")
-            execute_cobol_program "copy_lines.cbl" "$step_log"
-            return_code=$?
-            ;;
         "HELLO-COBOL")
             execute_cobol_program "hello_world.cbl" "$step_log"
             return_code=$?
             ;;
         "FILE-COPY")
-            execute_cobol_program "file_copy.cbl" "$step_log"
+            execute_cobol_program "5-file_copy.cbl" "$step_log"
+            return_code=$?
+            ;;
+                "BATCH-VALIDATOR")
+            execute_cobol_program "batch_validator.cbl" "$step_log"
+            return_code=$?
+            ;;
+        "ACCOUNT-UPDATE")
+            execute_cobol_program "account_updater.cbl" "$step_log"
+            return_code=$?
+            ;;
+        "TRANSACTION-SECURITY")
+            execute_cobol_program "customer_reporter.cbl" "$step_log"
+            return_code=$?
+            ;;
+        "CUSTOMER-SEARCH")
+            execute_cobol_program "customer_search.cbl" "$step_log"
             return_code=$?
             ;;
         *)
@@ -271,6 +259,7 @@ setup_step_environment() {
                     local input_file=$(resolve_dataset_name "$dsn")
                     export JCL_INPUT_FILE="$input_file"
                     export INFILE="$input_file"
+                    export TRANSIN="$input_file"
                 fi
                 ;;
             "TRANSOUT"|"OUTPUT"|"OUTFILE")
@@ -279,6 +268,21 @@ setup_step_environment() {
                     local output_file=$(resolve_dataset_name "$dsn")
                     export JCL_OUTPUT_FILE="$output_file"
                     export OUTFILE="$output_file"
+                    export TRANSOUT="$output_file"
+                fi
+                ;;
+            "ACCOUNTS")
+                # Accounts dataset
+                if [[ "$dsn" != "SYSOUT" ]]; then
+                    local accounts_file=$(resolve_dataset_name "$dsn")
+                    export ACCOUNTS="$accounts_file"
+                fi
+                ;;
+            "CUSTMAST")
+                # Customer master dataset
+                if [[ "$dsn" != "SYSOUT" ]]; then
+                    local custmast_file=$(resolve_dataset_name "$dsn")
+                    export CUSTMAST="$custmast_file"
                 fi
                 ;;
             "DATASET")
@@ -302,16 +306,16 @@ resolve_dataset_name() {
     # Convert dataset name to file path
     case "$dsn" in
         "TRANSACTIONS.INPUT")
-            echo "transactions.idx"
+            echo "datasets/transactions_input.dat"
             ;;
         "TRANSACTIONS.VALIDATED")
             echo "$DATASET_DIR/transactions_validated.dat"
             ;;
         "ACCOUNTS.MASTER")
-            echo "accounts.idx"
+            echo "datasets/accounts_master.dat"
             ;;
         "CUSTOMERS.MASTER")
-            echo "CUSTOMERS.DAT"
+            echo "datasets/customers_master.dat"
             ;;
         "STUDENT.INPUT.DATA")
             echo "datasets/student_input_data.dat"
